@@ -14,11 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # yatube/urls.py
-
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
     path('', include('posts.urls', namespace='group')),
     path('admin/', admin.site.urls),
+    path('auth/', include('users.urls', namespace='users')),
+    # Все адреса с префиксом /auth
+    # будут прернаправлены в модуль django.contrib.auth
+    path('auth/', include('django.contrib.auth.urls')),
 ]
