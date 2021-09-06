@@ -4,8 +4,13 @@
   Последние обновления на сайте.
 {% endblock %}
 
+{% block header %}
+  Последние обновления на сайте
+{% endblock %}
+
 {% block content %}
-{% for post in posts %}
+
+{% for post in page_obj %}
   <ul>
     <li>
       Автор: {{ post.author.get_full_name }}
@@ -21,4 +26,7 @@
   {% endif %}  
   {% if not forloop.last %}<hr>{% endif %}
 {% endfor %} 
+
+{% include 'posts/includes/paginator.html' %}
+
 {% endblock %} 

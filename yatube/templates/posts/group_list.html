@@ -4,6 +4,10 @@
   Записи сообщества {{ group }}
 {% endblock %}
 
+{% block header %}
+  Записи сообщества {{ group }}
+{% endblock %}
+
 
 {% block content %}
 <p><h3> Группа:  {{ group }} </h3></p>
@@ -18,4 +22,7 @@
   </ul>
   <p>{{ post.text }}</p> 
 {% endfor %} 
+
+{% include 'posts/includes/paginator.html' %}
+
 {% endblock %} 
