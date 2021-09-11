@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.db.models import Count
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
@@ -62,11 +63,12 @@ def profile(request, username):
     return render(request, 'posts/profile.html', context)
 
 
-# def post_detail(request, post_id):
-#     # Здесь код запроса к модели и создание словаря контекста
-#     context = {
-#     }
-#     return render(request, 'posts/post_detail.html', context)
-
 def post_detail(request, post_id):
-    return HttpResponse(f"Отображение поста с id = {post_id}")
+    post = get_object_or_404(Post, pk=post_id)
+    count = User.objects.filter().annotate(
+        posts_count=Count('posts__author'))
+    context = {
+        'post': post,
+        'count': count,
+    }
+    return render(request, 'posts/post_detail.html', context)
