@@ -1,8 +1,9 @@
 from django.core.paginator import Paginator
-from django.db.models import Count
-from django.http.response import HttpResponse
-from django.shortcuts import get_object_or_404, render
+# from django.db.models import Count
+# from django.http import request
+from django.shortcuts import get_object_or_404, redirect, render
 
+from .forms import PostForm
 from .models import Group, Post, User
 
 
@@ -20,12 +21,6 @@ def index(request):
     }
     return render(request, 'posts/index.html', context)
 
-    # posts = Post.objects.all()[:10]
-    # context = {
-    #     'posts': posts,
-    # }
-    # return render(request, 'posts/index.html', context)
-
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
@@ -39,13 +34,17 @@ def group_posts(request, slug):
     }
     return render(request, 'posts/group_list.html', context)
 
-    # group = get_object_or_404(Group, slug=slug)
-    # posts = group.posts.all()[:10]
-    # context = {
-    #     'group': group,
-    #     'posts': posts,
-    # }
-    # return render(request, 'posts/group_list.html', context)
+
+def post_create(request):
+    form = PostForm(request.POST)
+    if form.is_valid():
+        post = form.save(commit=False)
+        post.author = request.user
+        post.save()
+        return redirect('posts:profile', username=request.user)
+    return render(request, 'posts/create_post.html', {'form': form})
+
+# def post_edit():
 
 
 def profile(request, username):
@@ -65,8 +64,7 @@ def profile(request, username):
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    count = User.objects.filter().annotate(
-        posts_count=Count('posts__author'))
+    count = Post.objects.filter(author=post.author).count()
     context = {
         'post': post,
         'count': count,
