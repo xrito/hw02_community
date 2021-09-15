@@ -10,4 +10,5 @@ class PostForm(forms.ModelForm):
 
     widgets = {
         'text': forms.Textarea(attrs={'class': 'form-control'}),
+        'group': forms.Select(attrs={'class': 'form-control'}),
     }

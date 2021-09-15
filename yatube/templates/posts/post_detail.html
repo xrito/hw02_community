@@ -35,4 +35,6 @@
   </li>
 </ul>
 <p>{{ post.text}}</p>
+<input type="button" onclick="window.location.href = '{% url 'posts:post_edit' post.pk %}';"value="Редактировать запись"/>
+</ul>
 {% endblock %}

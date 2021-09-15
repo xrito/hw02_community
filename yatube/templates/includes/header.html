@@ -12,29 +12,26 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'about:tech' %}">
+        <a class="nav-link " href="{% url 'about:tech' %}">
           Технологии
         </a>
       </li>
-      <!-- пункты меню видны только авторизованному пользователю -->
+      {% if user.is_authenticated %}
+
       <li class="nav-item">
-        <a class="nav-link active" href="{% url 'posts:create_post' %}">
+        <a class="nav-link " href="{% url 'posts:create_post' %}">
           Новая запись
         </a>
       </li>
       <li class="nav-item">
-        {% comment %} <a class="nav-link link-light " href="{% url 'users:password_change_form' %}"> {% endcomment %}
-          Изменить пароль
-        </a>
-      </li>
-      <li class="nav-item">
-        {% comment %} <a class="nav-link link-light" href="{% url 'users:logged_out' %}">Выйти</a> {% endcomment %}
+        <a class="nav-link link-light" href="{% url 'users:logout' %}">Выйти</a>
       </li>
       <li>
-        Пользователь: leo
-      <li>
-        <!-- конец пункты меню видны только авторизованному пользователю -->
-        <!-- пункты меню видны только неавторизованному пользователю -->
+        <h4>Пользователь: {{ user.username }}</h4>
+      </li>
+
+      {% else %}
+
       <li class="nav-item">
         <a class="nav-link link-light" href="{% url 'users:login' %}">
           Войти
@@ -43,7 +40,8 @@
       <li class="nav-item">
         <a class="nav-link link-light " href="{% url 'users:signup' %}">Регистрация</a>
       </li>
-      <!-- конец пункты меню видны только неавторизованному пользователю -->
+
+      {% endif %}
     </ul>
   </div>
 </nav>
