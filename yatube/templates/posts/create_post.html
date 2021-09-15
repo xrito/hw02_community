@@ -1,11 +1,25 @@
 {% extends 'base.html' %}
 
+
 {% block title %}
-Создание поста
+  {% if not post %}
+    Редактировать пост
+  {% else %}
+    Создать запись
+  {% endif %}
 {% endblock %}
+
 {% block content %}
-<P>Новый пост</P>
-<form action="{% url 'posts:create_post' %}" method="post">
+{% load user_filters%}
+  {% if not post %} 
+    Новый пост
+  {% else %}
+    Редактировать пост
+  {% endif %}
+
+{% comment %} <form action="{% url 'posts:create_post' %}" method="post"> {% endcomment %}
+<form method="post" action={% if post %}"{% url 'posts:post_edit' post_id=post.pk %}"{% else %}"{% url 'posts:create_post' %}"{% endif %}>
+
   {% csrf_token %}
 
   {% for field in form %}
@@ -15,10 +29,18 @@
       {{ fields.errors }}
     </div>
     {% endif %}
+
     {{ field.label }}
-    {{ field }}
+    {{ field|addclass:"form-control" }}
   </div>
   {% endfor %}
-  <button type="submit" class="btn btn-primary">Сохранить</button>
+
+  <button type="submit" class="btn btn-primary">
+  {% if post %}
+   Сохранить 
+  {% else %} 
+   Добавить 
+  {% endif %}
+  </button>
 </form>
 {% endblock %}

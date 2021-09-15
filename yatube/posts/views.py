@@ -50,7 +50,7 @@ def post_create(request):
 
 
 def post_edit(request, post_id):
-    post = Post.objects.get(pk=post_id)
+    post = get_object_or_404(Post, pk=post_id, author=request.user)
     if request.method != 'POST':
         form = PostForm(instance=post)
     else:
