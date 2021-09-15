@@ -6,7 +6,7 @@ User = get_user_model()
 
 class Post(models.Model):
     text = models.TextField(
-        verbose_name='Текст поста', help_text='Текст нового поста'
+        verbose_name='Текст поста*', help_text='Текст нового поста'
     )
     pub_date = models.DateTimeField(
         auto_now_add=True, verbose_name='Дата публикации')
